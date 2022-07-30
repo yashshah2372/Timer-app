@@ -13,6 +13,8 @@ class ToggleableTimerForm extends React.Component{
         runningSince={timer.runningSince}
         onFormSubmit={this.props.onFormSubmit}
         onDelete={this.props.onDelete}
+        onStartClick={this.props.onStartClick}
+        onStopClick={this.props.onStopClick}
         />
       ))
         return(

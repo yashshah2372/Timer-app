@@ -5,7 +5,8 @@ const Helpers = (function () {
             title: attrs.title || 'Timer',
             project: attrs.project || 'Project',
             id: uuidv4(),
-            elapsed: 0
+            elapsed: 0,
+            runningSince:null
         };
 
         return timer;

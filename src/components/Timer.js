@@ -1,5 +1,6 @@
 import React from "react";
 import Helpers from "../helpers";
+import TimerActionButton from './TimerActionButton';
 class Timer extends React.Component{
     
     componentDidMount(){
@@ -10,11 +11,21 @@ class Timer extends React.Component{
         clearInterval(this.forceUpdateInterval)
     }
 
+
+    handleStartClick=(evt)=>{
+        this.props.onStartClick(this.props.id);
+    }
+
+    handleStopClick=(evt)=>{
+        this.props.onStopClick(this.props.id);
+    }
+
+
     handleDelete=(evt)=>{
         // console.log(this.props.id)
         this.props.onDelete(this.props.id);
     }
-    
+
     render(){
         return(
             <div className="ui centered card">
@@ -39,9 +50,11 @@ class Timer extends React.Component{
                         </span>
                     </div>
                 </div>
-                <div className="ui bottom attached blue button basic">
-                    Start
-                </div>
+                <TimerActionButton
+                    timerIsRunning={this.props.runningSince!==null}
+                    onStartClick={this.handleStartClick}
+                    onStopClick={this.handleStopClick}
+                />
             </div>
         )
     }
