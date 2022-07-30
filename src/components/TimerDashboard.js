@@ -13,18 +13,20 @@ class TimerDashboard extends React.Component{
                 id:uuidv4(),
                 title:"React JScript",
                 project:"Timer App",
-                elapsed:"9876541",
+                elapsed:9876541,
                 runningSince:null,
             },
             {
                 id:uuidv4(),
                 title:"JS",
                 project:"Todo App",
-                elapsed:"354997",
-                runningSince:null,
+                elapsed:354997,
+                runningSince:Date.now(),
             }
         ]
     }
+
+
 
     handleCreateFormSubmit=(timer)=>{
         this.createTimer(timer);

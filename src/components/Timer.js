@@ -1,10 +1,20 @@
 import React from "react";
 import Helpers from "../helpers";
 class Timer extends React.Component{
+    
+    componentDidMount(){
+        this.forceUpdateInterval=setInterval(()=>this.forceUpdate(),50)
+    }
+
+    componentWillUnmount(){ 
+        clearInterval(this.forceUpdateInterval)
+    }
+
     handleDelete=(evt)=>{
         // console.log(this.props.id)
         this.props.onDelete(this.props.id);
     }
+    
     render(){
         return(
             <div className="ui centered card">
