@@ -21,6 +21,7 @@ class TimerDashboard extends React.Component{
     }
     componentDidMount(){
         this.loadTimersFromServer();
+        setInterval(()=>this.loadTimersFromServer(),5000)
     }
     loadTimersFromServer=()=>{
         Client.getTimers((serverTimers)=>{
