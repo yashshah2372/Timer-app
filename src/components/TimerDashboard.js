@@ -3,27 +3,13 @@ import EditableTimerList from "./EditableTimerList";
 import ToggleableTimerForm from "./ToggleableTimerForm";
 import './TimerDashboard.css'
 import Helpers from '../helpers'
+import Client from '../client'
 import { v4 as uuidv4 } from 'uuid';
 
 class TimerDashboard extends React.Component{
 
     state={
-        timers:[
-            {
-                id:uuidv4(),
-                title:"React JScript",
-                project:"Timer App",
-                elapsed:9876541,
-                runningSince:null,
-            },
-            {
-                id:uuidv4(),
-                title:"JS",
-                project:"Todo App",
-                elapsed:354997,
-                runningSince:Date.now(),
-            }
-        ]
+        timers:[],
     }
 
     handleStartClick=(timerId)=>{
@@ -33,7 +19,15 @@ class TimerDashboard extends React.Component{
     handleStopClick=(timerId)=>{
         this.stopTimer(timerId);
     }
-
+    componentDidMount(){
+        this.loadTimersFromServer();
+    }
+    loadTimersFromServer=()=>{
+        Client.getTimers((serverTimers)=>{
+            console.log(serverTimers)
+            this.setState({timers:serverTimers})
+        })
+    }
 
     startTimer=(timerId)=>{
         const now= Date.now();
@@ -48,7 +42,9 @@ class TimerDashboard extends React.Component{
                 }
                 return timer;
             }),
-        })
+        });
+
+        Client.startTimer({id:timerId,start:now})
     }
 
     stopTimer=(timerId)=>{
@@ -66,7 +62,8 @@ class TimerDashboard extends React.Component{
                 }
                 return timer;
             }),
-        })
+        });
+        Client.stopTimer({id:timerId,stop:now})
     }
 
     handleCreateFormSubmit=(timer)=>{
@@ -84,7 +81,8 @@ class TimerDashboard extends React.Component{
     deleteTimer=(timer)=>{
         this.setState({
             timers:this.state.timers.filter((t)=>t.id!==timer)
-        })
+        });
+        Client.deleteTimer({id:timer})
     }
 
     updateTimer=(attr)=>{
@@ -99,12 +97,14 @@ class TimerDashboard extends React.Component{
             }return timer;
         })
     });
+    Client.updateTimer({...attr})
     }
     createTimer=(timer)=>{
         const t = Helpers.newTimer(timer);
         this.setState({
             timers:this.state.timers.concat(t)
-        })
+        });
+        Client.createTimer({...t})
     }
     render(){
         return(
